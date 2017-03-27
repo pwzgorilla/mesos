@@ -14,7 +14,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "linux/ns.hpp"
+#include "stout/ns.hpp"
 
 #include "slave/containerizer/mesos/isolators/namespaces/ipc.hpp"
 
