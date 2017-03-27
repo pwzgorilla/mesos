@@ -34,14 +34,10 @@
 #include <process/dispatch.hpp>
 #include <process/http.hpp>
 #include <process/io.hpp>
-#include <process/subprocess.hpp>
 
 #include <stout/duration.hpp>
 #include <stout/json.hpp>
 #include <stout/jsonify.hpp>
-#ifdef __linux__
-#include <stout/ns.hpp>
-#endif
 #include <stout/option.hpp>
 #include <stout/os.hpp>
 #include <stout/path.hpp>
@@ -86,36 +82,6 @@ static const string DEFAULT_HTTP_SCHEME = "http";
 // Use '127.0.0.1' instead of 'localhost', because the host
 // file in some container images may not contain 'localhost'.
 static const string DEFAULT_DOMAIN = "127.0.0.1";
-
-
-#ifdef __linux__
-// TODO(alexr): Instead of defining this ad-hoc clone function, provide a
-// general solution for entring namespace in child processes, see MESOS-6184.
-pid_t cloneWithSetns(
-    const lambda::function<int()>& func,
-    const Option<pid_t>& taskPid,
-    const vector<string>& namespaces)
-{
-  return process::defaultClone([=]() -> int {
-    if (taskPid.isSome()) {
-      foreach (const string& ns, namespaces) {
-        Try<Nothing> setns = ns::setns(taskPid.get(), ns);
-        if (setns.isError()) {
-          // This effectively aborts the health check.
-          LOG(FATAL) << "Failed to enter the " << ns << " namespace of "
-                     << "task (pid: '" << taskPid.get() << "'): "
-                     << setns.error();
-        }
-
-        VLOG(1) << "Entered the " << ns << " namespace of "
-                << "task (pid: '" << taskPid.get() << "') successfully";
-      }
-    }
-
-    return func();
-  });
-}
-#endif
 
 
 Try<Owned<HealthChecker>> HealthChecker::create(
@@ -203,8 +169,10 @@ HealthCheckerProcess::HealthCheckerProcess(
     (create.get() > Duration::zero()) ? create.get() : Duration::max();
 
 #ifdef __linux__
-  if (!namespaces.empty()) {
+  if (!namespaces.empty() && taskPid.isSome()) {
     clone = lambda::bind(&cloneWithSetns, lambda::_1, taskPid, namespaces);
+    childHooks.push_back(
+      Subprocess::ChildHook::SETNS(taskPid.get(), namespaces));
   }
 #endif
 }
@@ -355,7 +323,9 @@ Future<Nothing> HealthCheckerProcess::commandHealthCheck()
         Subprocess::FD(STDERR_FILENO),
         Subprocess::FD(STDERR_FILENO),
         environment,
-        clone);
+        None(),
+        {},
+        childHooks);
   } else {
     // Use the exec variant.
     vector<string> argv;
@@ -374,7 +344,9 @@ Future<Nothing> HealthCheckerProcess::commandHealthCheck()
         Subprocess::FD(STDERR_FILENO),
         nullptr,
         environment,
-        clone);
+        None(),
+        {},
+        childHooks);
   }
 
   if (external.isError()) {
@@ -451,7 +423,9 @@ Future<Nothing> HealthCheckerProcess::httpHealthCheck()
       Subprocess::PIPE(),
       nullptr,
       None(),
-      clone);
+      None(),
+      {},
+      childHooks);
 
   if (s.isError()) {
     return Failure(
@@ -577,7 +551,9 @@ Future<Nothing> HealthCheckerProcess::tcpHealthCheck()
       Subprocess::PIPE(),
       nullptr,
       None(),
-      clone);
+      None(),
+      {},
+      childHooks);
 
   if (s.isError()) {
     return Failure(

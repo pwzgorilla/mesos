@@ -28,6 +28,7 @@
 #include <process/pid.hpp>
 #include <process/process.hpp>
 #include <process/protobuf.hpp>
+#include <process/subprocess.hpp>
 #include <process/time.hpp>
 
 #include <stout/duration.hpp>
@@ -145,7 +146,7 @@ private:
   const TaskID taskId;
   const Option<pid_t> taskPid;
   const std::vector<std::string> namespaces;
-  Option<lambda::function<pid_t(const lambda::function<int()>&)>> clone;
+  std::vector<process::Subprocess::ChildHook> childHooks;
 
   uint32_t consecutiveFailures;
   process::Time startTime;
