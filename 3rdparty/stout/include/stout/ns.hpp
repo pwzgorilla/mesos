@@ -50,7 +50,7 @@
 #include <process/future.hpp>
 #include <process/reap.hpp>
 
-#include "common/status_utils.hpp"
+#include "stout/status_utils.hpp"
 
 #ifndef CLONE_NEWNS
 #define CLONE_NEWNS 0x00020000
