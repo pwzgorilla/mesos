@@ -170,7 +170,6 @@ HealthCheckerProcess::HealthCheckerProcess(
 
 #ifdef __linux__
   if (!namespaces.empty() && taskPid.isSome()) {
-    clone = lambda::bind(&cloneWithSetns, lambda::_1, taskPid, namespaces);
     childHooks.push_back(
       Subprocess::ChildHook::SETNS(taskPid.get(), namespaces));
   }
