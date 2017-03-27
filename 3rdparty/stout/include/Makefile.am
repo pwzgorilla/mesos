@@ -57,6 +57,7 @@ nobase_include_HEADERS =			\
   stout/none.hpp				\
   stout/nothing.hpp				\
   stout/numify.hpp				\
+  stout/ns.hpp					\
   stout/option.hpp				\
   stout/os.hpp					\
   stout/os/access.hpp				\
