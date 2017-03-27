@@ -199,6 +199,13 @@ public:
     static ChildHook CHDIR(const std::string& working_directory);
 
     /**
+     * `ChildHook` for entering the target pid's namespaces.
+     */
+    static ChildHook SETNS(
+        pid_t target_pid,
+        const std::vector<std::string>& namespaces);
+
+    /**
      * `ChildHook` for generating a new session id.
      */
     static ChildHook SETSID();

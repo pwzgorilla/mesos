@@ -34,6 +34,9 @@
 #include <stout/error.hpp>
 #include <stout/lambda.hpp>
 #include <stout/foreach.hpp>
+#ifdef __linux__
+#include <stout/ns.hpp>
+#endif // __linux__
 #include <stout/option.hpp>
 #include <stout/os.hpp>
 #include <stout/strings.hpp>
@@ -86,6 +89,26 @@ Subprocess::ChildHook Subprocess::ChildHook::CHDIR(
       return Error("Could not chdir");
     }
 
+    return Nothing();
+  });
+}
+
+
+Subprocess::ChildHook Subprocess::ChildHook::SETNS(
+    pid_t target_pid,
+    const std::vector<std::string>& namespaces)
+{
+  return Subprocess::ChildHook([target_pid, namespaces]() -> Try<Nothing> {
+#ifdef __linux__
+    foreach (const std::string& ns, namespaces) {
+      Try<Nothing> setns = ns::setns(target_pid, ns);
+      if (setns.isError()) {
+        // This effectively aborts the child process.
+        return Error("Failed to enter the " + ns + " namespace of pid " +
+                     stringify(target_pid) + ": " + setns.error());
+      }
+    }
+#endif // __linux__
     return Nothing();
   });
 }
