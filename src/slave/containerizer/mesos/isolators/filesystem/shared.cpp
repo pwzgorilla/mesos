@@ -18,9 +18,9 @@
 
 #include <process/id.hpp>
 
-#include <stout/os/strerror.hpp>
+#include <stout/os.hpp>
 
-#include "linux/ns.hpp"
+#include <stout/os/strerror.hpp>
 
 #include "slave/containerizer/mesos/isolators/filesystem/shared.hpp"
 

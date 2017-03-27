@@ -39,6 +39,9 @@
 #include <stout/duration.hpp>
 #include <stout/json.hpp>
 #include <stout/jsonify.hpp>
+#ifdef __linux__
+#include <stout/ns.hpp>
+#endif
 #include <stout/option.hpp>
 #include <stout/os.hpp>
 #include <stout/path.hpp>
@@ -51,10 +54,6 @@
 
 #include "common/status_utils.hpp"
 #include "common/validation.hpp"
-
-#ifdef __linux__
-#include "linux/ns.hpp"
-#endif
 
 using process::delay;
 using process::dispatch;

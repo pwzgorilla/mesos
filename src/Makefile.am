@@ -1179,7 +1179,6 @@ MESOS_LINUX_FILES +=									\
   linux/fs.hpp										\
   linux/ldcache.hpp									\
   linux/ldd.hpp										\
-  linux/ns.hpp										\
   linux/perf.hpp									\
   linux/sched.hpp									\
   linux/systemd.hpp									\

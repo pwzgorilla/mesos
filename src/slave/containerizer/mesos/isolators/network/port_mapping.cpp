@@ -39,6 +39,7 @@
 #include <stout/lambda.hpp>
 #include <stout/mac.hpp>
 #include <stout/multihashmap.hpp>
+#include <stout/ns.hpp>
 #include <stout/numify.hpp>
 #include <stout/os.hpp>
 #include <stout/option.hpp>
@@ -56,7 +57,6 @@
 #include "common/status_utils.hpp"
 
 #include "linux/fs.hpp"
-#include "linux/ns.hpp"
 
 #include "linux/routing/route.hpp"
 #include "linux/routing/utils.hpp"

@@ -37,7 +37,6 @@
 #include <process/owned.hpp>
 
 #include "linux/cgroups.hpp"
-#include "linux/ns.hpp"
 
 #include "slave/containerizer/mesos/launch.hpp"
 #include "slave/containerizer/mesos/linux_launcher.hpp"

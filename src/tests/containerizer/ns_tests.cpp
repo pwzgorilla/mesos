@@ -27,14 +27,13 @@
 
 #include <stout/gtest.hpp>
 #include <stout/lambda.hpp>
+#include <stout/ns.hpp>
 #include <stout/os.hpp>
 
 #include <process/gtest.hpp>
 #include <process/latch.hpp>
 #include <process/reap.hpp>
 #include <process/subprocess.hpp>
-
-#include "linux/ns.hpp"
 
 #include "tests/flags.hpp"
 #include "tests/utils.hpp"

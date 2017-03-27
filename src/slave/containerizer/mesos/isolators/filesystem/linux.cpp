@@ -37,7 +37,6 @@
 #include <stout/os/strerror.hpp>
 
 #include "linux/fs.hpp"
-#include "linux/ns.hpp"
 
 #include "slave/paths.hpp"
 

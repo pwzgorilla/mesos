@@ -16,9 +16,8 @@
 
 #include <process/id.hpp>
 
+#include <stout/ns.hpp>
 #include <stout/strings.hpp>
-
-#include "linux/ns.hpp"
 
 #include "slave/containerizer/mesos/isolators/namespaces/pid.hpp"
 

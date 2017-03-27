@@ -26,13 +26,13 @@
 #include <stout/abort.hpp>
 #include <stout/check.hpp>
 #include <stout/hashset.hpp>
+#include <stout/ns.hpp>
 #include <stout/os.hpp>
 #include <stout/path.hpp>
 #include <stout/strings.hpp>
 #include <stout/stringify.hpp>
 
 #include "linux/cgroups.hpp"
-#include "linux/ns.hpp"
 #include "linux/systemd.hpp"
 
 #include "mesos/resources.hpp"

@@ -16,12 +16,11 @@
 
 #include <set>
 
+#ifdef __linux__
+#include <stout/ns.hpp>
+#endif // __linux__
 #include <stout/os.hpp>
 #include <stout/try.hpp>
-
-#ifdef __linux__
-#include "linux/ns.hpp"
-#endif // __linux__
 
 #include "slave/containerizer/mesos/utils.hpp"
 

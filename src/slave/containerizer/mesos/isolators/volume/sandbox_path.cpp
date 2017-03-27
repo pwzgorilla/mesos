@@ -23,10 +23,6 @@
 
 #include <stout/os/mkdir.hpp>
 
-#ifdef __linux__
-#include "linux/ns.hpp"
-#endif // __linux__
-
 #include "slave/containerizer/mesos/isolators/volume/sandbox_path.hpp"
 
 using std::list;

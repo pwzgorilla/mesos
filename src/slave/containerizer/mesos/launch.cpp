@@ -26,6 +26,9 @@
 #include <string>
 
 #include <stout/foreach.hpp>
+#ifdef __linux__
+#include <stout/ns.hpp>
+#endif
 #include <stout/os.hpp>
 #include <stout/protobuf.hpp>
 #include <stout/path.hpp>
@@ -42,7 +45,6 @@
 #ifdef __linux__
 #include "linux/capabilities.hpp"
 #include "linux/fs.hpp"
-#include "linux/ns.hpp"
 #endif
 
 #ifndef __WINDOWS__

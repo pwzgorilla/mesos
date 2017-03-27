@@ -18,10 +18,9 @@
 #include <string>
 
 #include <stout/foreach.hpp>
+#include <stout/ns.hpp>
 #include <stout/subcommand.hpp>
 #include <stout/try.hpp>
-
-#include "linux/ns.hpp"
 
 #include "tests/containerizer/setns_test_helper.hpp"
 

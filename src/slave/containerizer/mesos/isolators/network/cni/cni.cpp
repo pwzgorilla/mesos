@@ -24,13 +24,13 @@
 
 #include <stout/adaptor.hpp>
 #include <stout/net.hpp>
+#include <stout/ns.hpp>
 #include <stout/os.hpp>
 #include <stout/path.hpp>
 
 #include "common/protobuf_utils.hpp"
 
 #include "linux/fs.hpp"
-#include "linux/ns.hpp"
 
 #include "slave/containerizer/mesos/isolators/network/cni/cni.hpp"
 
